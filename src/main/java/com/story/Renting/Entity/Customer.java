@@ -13,7 +13,7 @@ public class Customer {
     @SequenceGenerator(name = "customer_sequence", sequenceName = "customer_sequence", allocationSize =  1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_sequence")
     @Column(name = "cust_id")
-    private long custId;
+    private Long custId;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -34,7 +34,7 @@ public class Customer {
         //Do nothing
     }
 
-    public Customer(final long custId, final String firstName, final String lastName, final String email, final List<Order> orderDetails) {
+    public Customer(final Long custId, final String firstName, final String lastName, final String email, final List<Order> orderDetails) {
         this.custId = custId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,9 +42,9 @@ public class Customer {
         this.orderDetails = orderDetails;
     }
 
-    public long getCustId() { return custId; }
+    public Long getCustId() { return custId; }
 
-    public void setCustId(long custId) { this.custId = custId; }
+    public void setCustId(Long custId) { this.custId = custId; }
 
     public String getFirstName() { return firstName; }
 

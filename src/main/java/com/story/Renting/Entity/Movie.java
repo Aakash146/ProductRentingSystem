@@ -13,13 +13,13 @@ public class Movie {
     @SequenceGenerator(name = "movie_sequence", sequenceName = "movie_sequence", allocationSize =  1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_sequence")
     @Column(name = "movie_id")
-    private long movieId;
+    private Long movieId;
 
     @Column(name = "movie_name", nullable = false)
     private String movieName;
 
     @Column(name = "price_per_day", nullable = false)
-    private int pricePerDay;
+    private Integer pricePerDay;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -29,18 +29,18 @@ public class Movie {
         // Do Nothing
     }
 
-    public Movie(long movieId, String movieName, int pricePerDay, MovieStatus status) {
+    public Movie(Long movieId, String movieName, Integer pricePerDay, MovieStatus status) {
         this.movieId = movieId;
         this.movieName = movieName;
         this.pricePerDay = pricePerDay;
         this.status = status;
     }
 
-    public long getMovieId() {
+    public Long getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(long movieId) {
+    public void setMovieId(Long movieId) {
         this.movieId = movieId;
     }
 
@@ -52,11 +52,11 @@ public class Movie {
         this.movieName = movieName;
     }
 
-    public int getPricePerDay() {
+    public Integer getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(int pricePerDay) {
+    public void setPricePerDay(Integer pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 

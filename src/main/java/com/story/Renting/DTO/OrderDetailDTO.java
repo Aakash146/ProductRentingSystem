@@ -1,2 +1,4 @@
-package com.story.Renting.DTO;public class OrderDetailDTO {
+package com.story.Renting.DTO;
+
+public class OrderDetailDTO {
 }

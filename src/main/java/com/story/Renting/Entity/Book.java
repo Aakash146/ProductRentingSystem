@@ -13,13 +13,13 @@ public class Book {
     @SequenceGenerator(name = "book_sequence", sequenceName = "book_sequence", allocationSize =  1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_sequence")
     @Column(name = "book_id")
-    private long bookId;
+    private Long bookId;
 
     @Column(name = "book_name", nullable = false)
     private String bookName;
 
     @Column(name = "price_per_day", nullable = false)
-    private int pricePerDay;
+    private Integer pricePerDay;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -29,18 +29,18 @@ public class Book {
         //Do Nothing
     }
 
-    public Book(long bookId, String bookName, int pricePerDay, BookStatus status) {
+    public Book(Long bookId, String bookName, Integer pricePerDay, BookStatus status) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.pricePerDay = pricePerDay;
         this.status = status;
     }
 
-    public long getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(long bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
@@ -52,11 +52,11 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public int getPricePerDay() {
+    public Integer getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(int pricePerDay) {
+    public void setPricePerDay(Integer pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 

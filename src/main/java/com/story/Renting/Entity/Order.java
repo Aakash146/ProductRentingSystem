@@ -13,7 +13,7 @@ public class Order {
     @SequenceGenerator(name = "order_sequence", sequenceName = "order_sequence", allocationSize =  1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_sequence")
     @Column(name = "order_id")
-    private long orderId;
+    private Long orderId;
 
     @Column(name = "product_type", nullable = false)
     private String productType;
@@ -25,7 +25,7 @@ public class Order {
     private LocalDate orderDate;
 
     @Column(name = "rent_duration", nullable = false)
-    private int days;
+    private Integer days;
 
     @Column(name = "return_date", nullable = false)
     private LocalDate returnDate;
@@ -35,13 +35,13 @@ public class Order {
     private RentStatus status;
 
     @Column(name = "order_amount", nullable = false)
-    private int orderAmount;
+    private Integer orderAmount;
 
     @Column(name = "fine", nullable = false)
-    private int fine;
+    private Integer fine;
 
     @Column(name = "total_amount", nullable = false)
-    private int totalAmount;
+    private Integer totalAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cust_id", nullable = false)
@@ -51,7 +51,7 @@ public class Order {
         // Do Nothing
     }
 
-    public Order(long orderId, String productType, String productName, LocalDate orderDate, int days, LocalDate returnDate, RentStatus status, int orderAmount, int fine, int totalAmount, Customer customer) {
+    public Order(Long orderId, String productType, String productName, LocalDate orderDate, Integer days, LocalDate returnDate, RentStatus status, Integer orderAmount, Integer fine, Integer totalAmount, Customer customer) {
         this.orderId = orderId;
         this.productType = productType;
         this.productName = productName;
@@ -65,11 +65,11 @@ public class Order {
         this.customer = customer;
     }
 
-    public long getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -97,11 +97,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public int getDays() {
+    public Integer getDays() {
         return days;
     }
 
-    public void setDays(int days) {
+    public void setDays(Integer days) {
         this.days = days;
     }
 
@@ -121,27 +121,27 @@ public class Order {
         this.status = status;
     }
 
-    public int getOrderAmount() {
+    public Integer getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(int orderAmount) {
+    public void setOrderAmount(Integer orderAmount) {
         this.orderAmount = orderAmount;
     }
 
-    public int getFine() {
+    public Integer getFine() {
         return fine;
     }
 
-    public void setFine(int fine) {
+    public void setFine(Integer fine) {
         this.fine = fine;
     }
 
-    public int getTotalAmount() {
+    public Integer getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(int totalAmount) {
+    public void setTotalAmount(Integer totalAmount) {
         this.totalAmount = totalAmount;
     }
 
