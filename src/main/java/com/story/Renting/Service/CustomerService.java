@@ -46,7 +46,7 @@ public class CustomerService implements ICustomerService {
         boolean exist = customerRepository.existsById(custId);
         if(!exist){
             LOGGER.info("Customer with id " + custId + "does not exist.");
-            throw new IllegalStateException("Customer doesn't exists.");
+            throw new IllegalStateException("Customer with id " + custId + "does not exist.");
         }
         customerRepository.deleteById(custId);
         return "Customer with id " + custId + " deleted successfully.";
