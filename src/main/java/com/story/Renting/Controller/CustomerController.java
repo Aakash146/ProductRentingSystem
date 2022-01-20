@@ -2,6 +2,7 @@ package com.story.Renting.Controller;
 
 import com.story.Renting.DTO.CustomerDTO;
 import com.story.Renting.DTO.CustomerDetailDTO;
+import com.story.Renting.Entity.Customer;
 import com.story.Renting.Service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public String registerNewCustomer(@RequestBody CustomerDTO customerDTO){
+    public Customer registerNewCustomer(@RequestBody CustomerDTO customerDTO){
 
         return customerService.registerNewCustomer(customerDTO);
     }

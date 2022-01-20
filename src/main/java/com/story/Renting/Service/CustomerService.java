@@ -24,7 +24,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     @Transactional
-    public String registerNewCustomer(CustomerDTO customerDTO){
+    public Customer registerNewCustomer(CustomerDTO customerDTO){
         final Customer customer = customerRepository.findByEmail(customerDTO.getEmail());
         if(Objects.nonNull(customer)){
             LOGGER.error("Customer with email " + customerDTO.getEmail() + " already exists.");
@@ -36,7 +36,7 @@ public class CustomerService implements ICustomerService {
         newCustomer.setEmail(customerDTO.getEmail());
         LOGGER.info("Customer with email " + customerDTO.getEmail() + " registered successfully.");
         customerRepository.save(newCustomer);
-        return "Customer with email " + customerDTO.getEmail() + " registered successfully." ;
+        return newCustomer ;
     }
 
     @Override
@@ -44,11 +44,14 @@ public class CustomerService implements ICustomerService {
     public String deleteCustomer(Long custId) {
         boolean exist = customerRepository.existsById(custId);
         if(!exist){
-            LOGGER.info("Customer with id " + custId + "does not exist.");
+            LOGGER.error("Customer with id " + custId + "does not exist.");
             throw new IllegalStateException("Customer with id " + custId + "does not exist.");
         }
+        final Customer customer = customerRepository.findByCustId(custId);
+        String email = customer.getEmail();
         customerRepository.deleteById(custId);
-        return "Customer with id " + custId + " deleted successfully.";
+        LOGGER.info("Customer with id " + email + "does not exist.");
+        return "Customer with email: " + email + " deleted successfully.";
     }
 
     @Override

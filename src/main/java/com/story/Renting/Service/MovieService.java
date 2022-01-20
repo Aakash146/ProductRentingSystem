@@ -2,6 +2,7 @@ package com.story.Renting.Service;
 
 import com.story.Renting.DTO.MovieDTO;
 import com.story.Renting.DTO.MovieDetailDTO;
+import com.story.Renting.Entity.Movie;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +15,12 @@ public class MovieService implements IMovieService{
     }
 
     @Override
-    public String addNewMovie(MovieDTO movieDTO) {
+    public Movie addNewMovie(MovieDTO movieDTO) {
         return null;
     }
 
     @Override
-    public String updatePriceOfMovie(Long id) {
+    public Movie updatePriceOfMovie(Long id, MovieDTO movieDTO) {
         return null;
     }
 
