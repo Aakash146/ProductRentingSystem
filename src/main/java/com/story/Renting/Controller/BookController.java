@@ -27,9 +27,9 @@ public class BookController {
     }
 
     @PutMapping(path = "bookId")
-    public String updatePriceOfBook(@PathVariable("bookId") Long id){
+    public String updatePriceOfBook(@PathVariable("bookId") Long bookId, BookDTO bookDTO){
 
-        return bookService.updatePriceOfBook(id);
+        return bookService.updatePriceOfBook(bookId, bookDTO);
     }
 
     @DeleteMapping(path = "bookId")

@@ -1,4 +1,7 @@
 package com.story.Renting.Repository;
 
-public interface MovieRepository {
+import com.story.Renting.Entity.Movie;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MovieRepository extends JpaRepository<Movie, Long> {
 }

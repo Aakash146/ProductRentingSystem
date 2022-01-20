@@ -10,7 +10,7 @@ public interface IBookService {
 
     String addNewBook(BookDTO bookDTO);
 
-    String updatePriceOfBook(Long id);
+    String updatePriceOfBook(Long bookkId, BookDTO bookDTO);
 
     String deleteBook(Long farmId);
 }
