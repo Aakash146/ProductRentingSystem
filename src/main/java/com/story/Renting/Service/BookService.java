@@ -25,7 +25,7 @@ public class BookService implements IBookService{
     @Override
     @Transactional
     public String addNewBook(BookDTO bookDTO) {
-        final Book book = bookRepository.findByName(bookDTO.getBookName());
+        final Book book = bookRepository.findBybookName(bookDTO.getBookName());
         if(Objects.nonNull(book)){
             LOGGER.error("Book with name: '" + bookDTO.getBookName() + "' already exists.");
             throw new IllegalStateException("Book with name: '" + bookDTO.getBookName() + "' already exists.");
@@ -40,6 +40,7 @@ public class BookService implements IBookService{
     }
 
     @Override
+    @Transactional
     public String updatePriceOfBook(Long bookId, BookDTO bookDTO) {
         boolean exists = bookRepository.existsById(bookId);
         if(!exists){
@@ -51,11 +52,13 @@ public class BookService implements IBookService{
     }
 
     @Override
+    @Transactional
     public String deleteBook(Long farmId) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<BookDetailDTO> getAllBooksDetail() {
         return null;
     }
