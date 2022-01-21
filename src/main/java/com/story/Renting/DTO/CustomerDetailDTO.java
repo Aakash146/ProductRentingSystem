@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CustomerDetailDTO {
 
-    @JsonProperty("customer_id")
+    @JsonProperty("cust_id")
     private Long custId;
 
     @JsonProperty("first_name")

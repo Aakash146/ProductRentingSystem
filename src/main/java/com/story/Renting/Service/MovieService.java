@@ -73,6 +73,7 @@ public class MovieService implements IMovieService{
     }
 
     @Override
+    @Transactional
     public String deleteMovie(Long movieId) {
         boolean exists = movieRepository.existsById(movieId);
         if(!exists){

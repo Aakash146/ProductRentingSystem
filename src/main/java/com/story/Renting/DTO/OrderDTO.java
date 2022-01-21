@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class OrderDTO {
 
-    @JsonProperty("customer_id")
+    @JsonProperty("cust_id")
     private Long custId;
 
     @JsonProperty("product_type")

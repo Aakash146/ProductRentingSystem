@@ -32,7 +32,7 @@ public class Order {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private RentStatus status;
+    private RentStatus rentStatus;
 
     @Column(name = "order_amount", nullable = false)
     private Integer orderAmount;
@@ -58,7 +58,7 @@ public class Order {
         this.orderDate = orderDate;
         this.days = days;
         this.returnDate = returnDate;
-        this.status = status;
+        this.rentStatus = status;
         this.orderAmount = orderAmount;
         this.fine = fine;
         this.totalAmount = totalAmount;
@@ -113,12 +113,12 @@ public class Order {
         this.returnDate = returnDate;
     }
 
-    public RentStatus getStatus() {
-        return status;
+    public RentStatus getRentStatus() {
+        return rentStatus;
     }
 
-    public void setStatus(RentStatus status) {
-        this.status = status;
+    public void setRentStatus(RentStatus status) {
+        this.rentStatus = rentStatus;
     }
 
     public Integer getOrderAmount() {
@@ -173,11 +173,13 @@ public class Order {
                 ", orderDate=" + orderDate +
                 ", days=" + days +
                 ", returnDate=" + returnDate +
-                ", status=" + status +
+                ", status=" + rentStatus +
                 ", orderAmount=" + orderAmount +
                 ", fine=" + fine +
                 ", totalAmount=" + totalAmount +
                 ", customer=" + customer +
                 '}';
     }
+
+
 }

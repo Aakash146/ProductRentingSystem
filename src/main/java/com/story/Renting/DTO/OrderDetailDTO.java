@@ -1,6 +1,7 @@
 package com.story.Renting.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.story.Renting.Enum.RentStatus;
 
 import java.time.LocalDate;
 
@@ -9,7 +10,7 @@ public class OrderDetailDTO {
     @JsonProperty("order_id")
     private Long orderId;
 
-    @JsonProperty("customer_id")
+    @JsonProperty("cust_id")
     private Long custId;
 
     @JsonProperty("product_type")
@@ -28,7 +29,7 @@ public class OrderDetailDTO {
     private LocalDate returnDate;
 
     @JsonProperty("status")
-    private String status;
+    private RentStatus rentStatus;
 
     @JsonProperty("order_amount")
     private Integer orderAmount;
@@ -95,12 +96,12 @@ public class OrderDetailDTO {
         this.returnDate = returnDate;
     }
 
-    public String getStatus() {
-        return status;
+    public RentStatus getRentStatus() {
+        return rentStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRentStatus(RentStatus rentStatus) {
+        this.rentStatus = rentStatus;
     }
 
     public Integer getOrderAmount() {
