@@ -18,7 +18,7 @@ import java.util.Objects;
 @Service
 public class BookService implements IBookService{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookService.class);
 
     @Autowired
     private BookRepository bookRepository;
@@ -51,9 +51,10 @@ public class BookService implements IBookService{
             throw new IllegalStateException("Book with bookId "+ bookId + " does not exists.");
         }
         final Book book = bookRepository.findBybookId(bookId);
+        Integer oldPrice = book.getPricePerDay();
         book.setPricePerDay(bookDTO.getPricePerDay());
         bookRepository.save(book);
-        LOGGER.info("Price for book : '" + book.getBookName() + "' changed from " + book.getPricePerDay() + " to " + bookDTO.getPricePerDay() + ".");
+        LOGGER.info("Price for book : '" + book.getBookName() + "' changed from " + oldPrice + " to " + book.getPricePerDay() + ".");
         return  book;
 
     }
