@@ -28,7 +28,7 @@ public class OrderDetailDTO {
     @JsonProperty("return_date")
     private LocalDate returnDate;
 
-    @JsonProperty("status")
+    @JsonProperty("rent_Status")
     private RentStatus rentStatus;
 
     @JsonProperty("order_amount")

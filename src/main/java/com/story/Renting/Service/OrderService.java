@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class OrderService implements IOrderService{
+public class OrderService implements IOrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookService.class);
 
@@ -40,15 +40,15 @@ public class OrderService implements IOrderService{
     @Override
     @Transactional
     public List<OrderDetailDTO> getAllOrderDetails(Long custId) {
-        boolean exists = orderRepository.existsById(custId);
-        if(!exists){
-            LOGGER.error("Customer with customer_id: '"+ custId + "' don't exists.");
-            throw new IllegalStateException("Customer with customer_id: '"+ custId + "' don't exists.");
-        }
         final List<Order> orders = orderRepository.findByCustomer(custId);
+        if (orders.isEmpty()) {
+            LOGGER.error("Customer with customer_id: '" + custId + "' don't exists.");
+            throw new IllegalStateException("Customer with customer_id: '" + custId + "' don't exists.");
+        }
         final List<OrderDetailDTO> dtos = new ArrayList<>();
         orders.forEach(order -> {
             final OrderDetailDTO dto = new OrderDetailDTO();
+            dto.setOrderId(order.getOrderId());
             dto.setProductType(order.getProductType());
             dto.setProductName(order.getProductName());
             dto.setOrderDate(order.getOrderDate());
@@ -68,44 +68,42 @@ public class OrderService implements IOrderService{
     @Transactional
     public Order addNewOrder(OrderDTO orderDTO) {
         final List<Order> orders = orderRepository.findByCustomer(orderDTO.getCustId());
-        final LocalDate returnDate =orderDTO.getOrderDate().plusDays(orderDTO.getDays());
-        final Order newOrder = new Order();
-        if(orders.isEmpty()){
-            if(orderDTO.getProductType().equalsIgnoreCase("Movie")){
+        System.out.println(orders);
+        final LocalDate returnDate = orderDTO.getOrderDate().plusDays(orderDTO.getDays());
+        Order newOrder = new Order();
+        if (orders.isEmpty()) {
+            if (orderDTO.getProductType().equalsIgnoreCase("Movie")) {
                 final Movie movie = movieRepository.findBymovieName(orderDTO.getProductName());
-                if(Objects.isNull(movie)){
+                if (Objects.isNull(movie)) {
                     LOGGER.error("Movie with Movie_Name: '" + orderDTO.getProductName() + "' is not available in movie section.");
                     throw new IllegalStateException("Movie with Movie_Name: '" + orderDTO.getProductName() + "' is not available in movie section.");
                 }
-                if(movie.getStatus().equals(MovieStatus.ON_RENT)){
+                if (movie.getStatus().equals(MovieStatus.ON_RENT)) {
                     LOGGER.error("Movie with Movie_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                     throw new IllegalStateException("Movie with Movie_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                 }
-                addOrder(newOrder, orderDTO);
+                newOrder = addOrder(newOrder, orderDTO);
                 orderRepository.save(newOrder);
                 LOGGER.info("New Order created succesfully with details {}", newOrder.toString());
-            }
-            else if(orderDTO.getProductType().equalsIgnoreCase("Book")){
+            } else if (orderDTO.getProductType().equalsIgnoreCase("Book")) {
                 final Book book = bookRepository.findBybookName(orderDTO.getProductName());
-                if(Objects.isNull(book)){
+                if (Objects.isNull(book)) {
                     LOGGER.error("Book with book_Name: '" + orderDTO.getProductName() + "' is not available in book section.");
                     throw new IllegalStateException("Book with book_Name: '" + orderDTO.getProductName() + "' is not available in book section.");
                 }
-                if(book.getStatus().equals(MovieStatus.ON_RENT)){
+                if (book.getStatus().equals(BookStatus.ON_RENT)) {
                     LOGGER.error("Book with Book_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                     throw new IllegalStateException("Book with Book_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                 }
-                addOrder(newOrder, orderDTO);
+                newOrder = addOrder(newOrder, orderDTO);
                 orderRepository.save(newOrder);
                 LOGGER.info("New Order created succesfully with details {}", newOrder.toString());
-            }
-            else{
+            } else {
                 LOGGER.error("Invalid Product Type.");
                 throw new IllegalStateException("Invalid Product Type.");
             }
-        }
-        else{
-            for(Order lastOrder : orders){
+        } else {
+            for (Order lastOrder : orders) {
                 if (returnDate.isBefore(lastOrder.getOrderDate()) || orderDTO.getOrderDate().isAfter(lastOrder.getReturnDate()) || lastOrder.getRentStatus() == RentStatus.RETURNED) {
                     if (orderDTO.getProductType().equalsIgnoreCase("Movie")) {
                         final Movie movie = movieRepository.findBymovieName(orderDTO.getProductName());
@@ -117,7 +115,7 @@ public class OrderService implements IOrderService{
                             LOGGER.error("Movie with Movie_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                             throw new IllegalStateException("Movie with Movie_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                         }
-                        addOrder(newOrder, orderDTO);
+                        newOrder = addOrder(newOrder, orderDTO);
                         orderRepository.save(newOrder);
                         LOGGER.info("New Order created succesfully with details {}", newOrder.toString());
                     } else if (orderDTO.getProductType().equalsIgnoreCase("Book")) {
@@ -130,15 +128,14 @@ public class OrderService implements IOrderService{
                             LOGGER.error("Book with Book_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                             throw new IllegalStateException("Book with Book_Name: '" + orderDTO.getProductName() + "' is already on rent.");
                         }
-                        addOrder(newOrder, orderDTO);
+                        newOrder = addOrder(newOrder, orderDTO);
                         orderRepository.save(newOrder);
                         LOGGER.info("New Order created succesfully with details {}", newOrder.toString());
                     } else {
                         LOGGER.error("Invalid Product Type.");
                         throw new IllegalStateException("Invalid Product Type.");
                     }
-                }
-                else{
+                } else {
                     LOGGER.error("Request Order overlaps with existing order.");
                     throw new IllegalStateException("Request Order overlaps with existing order.");
                 }
@@ -147,19 +144,18 @@ public class OrderService implements IOrderService{
         return newOrder;
     }
 
-    public Order addOrder(Order newOrder, OrderDTO orderDTO){
+    public Order addOrder(Order newOrder, OrderDTO orderDTO) {
         newOrder.setProductType(orderDTO.getProductType());
         newOrder.setProductName(orderDTO.getProductName());
         newOrder.setOrderDate(orderDTO.getOrderDate());
         newOrder.setDays(orderDTO.getDays());
         newOrder.setReturnDate(orderDTO.getOrderDate().plusDays(orderDTO.getDays()));
-        if(orderDTO.getProductType().equalsIgnoreCase("Movie")){
+        if (orderDTO.getProductType().equalsIgnoreCase("Movie")) {
             final Movie movie = movieRepository.findBymovieName(orderDTO.getProductName());
             newOrder.setOrderAmount(orderDTO.getDays() * movie.getPricePerDay());
             movie.setStatus(MovieStatus.ON_RENT);
             movieRepository.save(movie);
-        }
-        else{
+        } else {
             final Book book = bookRepository.findBybookName(orderDTO.getProductName());
             newOrder.setOrderAmount(orderDTO.getDays() * book.getPricePerDay());
             book.setStatus(BookStatus.ON_RENT);
@@ -174,43 +170,55 @@ public class OrderService implements IOrderService{
 
     @Override
     @Transactional
-    public Order returnProduct(Long orderId) {
+    public String returnProduct(Long orderId) {
         final Order order = orderRepository.findByorderId(orderId);
-        if(Objects.isNull(order)){
+        if (Objects.isNull(order)) {
             LOGGER.error("Order with order_id: " + orderId + " does not exist.");
             throw new IllegalStateException("Order with order_id: " + orderId + " does not exist.");
         }
-        if(order.getRentStatus().equals(RentStatus.RETURNED) || order.getRentStatus().equals(RentStatus.RETURNED_WITH_FINE)){
+        if (order.getRentStatus().equals(RentStatus.RETURNED) || order.getRentStatus().equals(RentStatus.RETURNED_WITH_FINE)) {
             LOGGER.error("Order with order_id: " + orderId + " is already " + order.getRentStatus() + ".");
+            throw new IllegalStateException("Order with order_id: " + orderId + " is already " + order.getRentStatus() + ".");
+        } else if (order.getRentStatus().equals(RentStatus.CANCELLED) || order.getRentStatus().equals(RentStatus.REQUESTED)) {
+            LOGGER.error("Order with order_id: " + orderId + " is " + order.getRentStatus() + ".");
+            throw new IllegalStateException("Order with order_id: " + orderId + " is " + order.getRentStatus() + ".");
         }
-        if(order.getRentStatus().equals(RentStatus.RENTING)){
+        if (order.getRentStatus().equals(RentStatus.RENTING)) {
             order.setRentStatus(RentStatus.RETURNED);
-        }
-        else if(order.getRentStatus().equals(RentStatus.DELAYED)){
+        } else if (order.getRentStatus().equals(RentStatus.DELAYED)) {
             order.setRentStatus(RentStatus.RETURNED_WITH_FINE);
         }
         orderRepository.save(order);
         LOGGER.info("Order with order_id: " + orderId + " successfully " + order.getRentStatus() + ".");
-        return order;
+        return "Order with order_id: " + orderId + " successfully " + order.getRentStatus() + ".";
     }
 
     @Override
     @Transactional
-    public Order cancelOrder(Long orderId) {
+    public String cancelOrder(Long orderId) {
         final Order order = orderRepository.findByorderId(orderId);
-        if(Objects.isNull(order)){
+        if (Objects.isNull(order)) {
             LOGGER.error("Order with order_id: " + orderId + " does not exist.");
             throw new IllegalStateException("Order with order_id: " + orderId + " does not exist.");
         }
-        if(order.getRentStatus().equals(RentStatus.REQUESTED)){
+        if (order.getRentStatus().equals(RentStatus.REQUESTED)) {
+            if (order.getProductType().equalsIgnoreCase("Movie")) {
+                final Movie movie = movieRepository.findBymovieName(order.getProductName());
+                movie.setStatus(MovieStatus.IN_LIBRARY);
+                movieRepository.save(movie);
+            } else {
+                final Book book = bookRepository.findBybookName(order.getProductName());
+                book.setStatus(BookStatus.IN_LIBRARY);
+                bookRepository.save(book);
+            }
             order.setRentStatus(RentStatus.CANCELLED);
             orderRepository.save(order);
             LOGGER.info("Order with order_id: " + orderId + " successfully " + order.getRentStatus() + ".");
-        }
-        else{
+        } else {
             LOGGER.error("Order with order_id: " + orderId + " cannot be cancelled.");
             throw new IllegalStateException("Order with order_id: " + orderId + " cannot be cancelled.");
         }
-        return order;
+
+        return "Order with order_id: " + orderId + " successfully " + order.getRentStatus() + ".";
     }
 }

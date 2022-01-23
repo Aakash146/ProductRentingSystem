@@ -3,6 +3,7 @@ package com.story.Renting.Service;
 import com.story.Renting.DTO.OrderDTO;
 import com.story.Renting.DTO.OrderDetailDTO;
 import com.story.Renting.Entity.Order;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface IOrderService {
 
     Order addNewOrder(OrderDTO orderDTO);
 
-    Order returnProduct(Long orderId);
+    String returnProduct(Long orderId);
 
-    Order cancelOrder(Long orderId);
+    String cancelOrder(Long orderId);
 }

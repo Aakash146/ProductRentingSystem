@@ -51,14 +51,14 @@ public class Order {
         // Do Nothing
     }
 
-    public Order(Long orderId, String productType, String productName, LocalDate orderDate, Integer days, LocalDate returnDate, RentStatus status, Integer orderAmount, Integer fine, Integer totalAmount, Customer customer) {
+    public Order(Long orderId, String productType, String productName, LocalDate orderDate, Integer days, LocalDate returnDate, RentStatus rentStatus, Integer orderAmount, Integer fine, Integer totalAmount, Customer customer) {
         this.orderId = orderId;
         this.productType = productType;
         this.productName = productName;
         this.orderDate = orderDate;
         this.days = days;
         this.returnDate = returnDate;
-        this.rentStatus = status;
+        this.rentStatus = rentStatus;
         this.orderAmount = orderAmount;
         this.fine = fine;
         this.totalAmount = totalAmount;
@@ -117,7 +117,7 @@ public class Order {
         return rentStatus;
     }
 
-    public void setRentStatus(RentStatus status) {
+    public void setRentStatus(RentStatus rentStatus) {
         this.rentStatus = rentStatus;
     }
 
